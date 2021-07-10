@@ -1,0 +1,93 @@
+Bhavya Sharma
+
+Task 1- Prediction by using Supervised Machine Learning.
+
+
+
+# Importing Necessary Libraries
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from matplotlib import pyplot as plt
+%matplotlib inline
+
+#importing the dataset using Pandas
+data = pd.read_csv("http://bit.ly/w-data")
+data.head()
+
+
+Hours	Scores
+0	2.5	21
+1	5.1	47
+2	3.2	27
+3	8.5	75
+4	3.5	30
+
+
+data.info()<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 25 entries, 0 to 24
+Data columns (total 2 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   Hours   25 non-null     float64
+ 1   Scores  25 non-null     int64  
+dtypes: float64(1), int64(1)
+memory usage: 528.0 bytes
+
+data.describe()
+
+Hours	Scores
+count	25.000000	25.000000
+mean	5.012000	51.480000
+std	2.525094	25.286887
+min	1.100000	17.000000
+25%	2.700000	30.000000
+50%	4.800000	47.000000
+75%	7.400000	75.000000
+max	9.200000	95.000000
+
+Data Visualization
+
+data.plot(x='Hours', y='Scores', style = 'p')
+plt.title('Hours vs Percentage Scored')
+plt.xlabel('Hours studied')
+plt.ylabel('Percentage Scored')
+plt.show()
+
+# importing the regression model
+from sklearn.linear_model import LinearRegression
+
+X = data.iloc[:,:-1] #Selecting the no. of Hours
+y = data.iloc[:,1]   #Selecting the marks stored
+#splitting the data
+X_train,X_test,y_train,y_test = train_test_split(X,y, test_size=0.4,random_state=22)
+
+model = LinearRegression()
+model.fit(X_train,y_train)
+
+LinearRegression()
+line = clf.coef_*X_train + clf.intercept_
+plt.scatter(X_train,y_train)
+plt.plot(X_train,line)
+plt.show()
+
+predictions = model.predict(X_test)
+predictions
+
+array([75.6674732 , 62.45793627, 52.29675402, 27.90991662, 25.87768017,
+       86.84477367, 15.71649792, 79.7319461 , 90.90924658, 11.65202501])
+  
+model.predict([[9.25]])
+array([94.46566036])
+
+from sklearn import metrics
+print("Model accuracy :",str(round(clf.score(X_test,y_test),3)*100)+"%)
+
+metrics.mean_absolute_error(y_test,predictions)
+5.537358546754018
+       
+
+
+
+
